@@ -1,114 +1,102 @@
 import React, { useState, useEffect } from 'react';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import Column from './Column';
-import AddColumn from './AddColumn';
 
 const Container = styled.div`
   display: flex;
+  justify-content:center;
+`;
+
+const ColumnContainer = styled.div`
+  margin: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  width: 300px;
+  h
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+`;
+
+const Title = styled.h3`
+  padding: 8px;
+`;
+
+const TaskList = styled.div`
+  padding: 8px;
+`;
+
+const TaskContainer = styled.div`
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: white;
+`;
+
+const Heading = styled.div`
+    color:"red";
 `;
 
 function Board(props) {
-    const initialData = {tasks: {}, columns: {}, columnOrder: []};
+    const initialData = {
+        "tasks": {
+            "task-1": { "id": "task-1", "content": "create video" },
+            "task-2": { "id": "task-2", "content": "Edit video" },
+            "task-3": { "id": "task-3", "content": "publish video" }
+        },
+        "columns": {
+            "column-1": {
+                "id": "column-1",
+                "title": "To do",
+                "taskIds": ["task-2", "task-3"]
+            },
+            "column-2": {
+                "id": "column-2",
+                "title": "Done",
+                "taskIds": ["task-1"]
+            }
+        },
+        "columnOrder": ["column-1", "column-2"]
+    };
+
     const [state, setState] = useState(initialData);
 
     useEffect(() => {
         fetchBoard().then(board => setState(board));
     }, [props.token]);
 
-
     async function fetchBoard() {
-        const response = await fetch('/board', {headers: {"Authorization" : "Bearer " + props.token}});
+        const response = await fetch('/board', { headers: { "Authorization": "Bearer " + props.token } });
         const data = await response.json();
         return data.board;
     }
 
-    function onDragEnd(result) {
-        const { destination, source, draggableId, type } = result;
-
-        if (!destination) {
-            return;
-        }
-        
-        if (destination.droppableId === source.droppableId && destination.index === source.index) {
-            return;
-        }
-
-        if (type === 'column') {
-            const newColumnOrder = Array.from(state.columnOrder);
-            newColumnOrder.splice(source.index, 1);
-            newColumnOrder.splice(destination.index, 0, draggableId);
-      
-            setState({
-                ...state,
-                columnOrder: newColumnOrder,
-            });
-            return;
-        }
-
-        const start = state.columns[source.droppableId]; 
-        const finish = state.columns[destination.droppableId]; 
-
-        if (start === finish) {
-            const newTaskIds = Array.from(start.taskIds);
-            newTaskIds.splice(source.index, 1);
-            newTaskIds.splice(destination.index, 0, draggableId);
-      
-            const newColumn = {
-                ...start,
-                taskIds: newTaskIds,
-            }
-      
-            setState({...state, 
-                columns: {
-                ...state.columns,
-                [newColumn.id]: newColumn}
-            });
-            return;
-        }
-
-        const startTaskIds = Array.from(start.taskIds);
-        startTaskIds.splice(source.index, 1);
-        const newStart = {
-            ...start,
-            taskIds: startTaskIds,
-        }
-    
-        const finishTaskIds = Array.from(finish.taskIds);
-        finishTaskIds.splice(destination.index, 0, draggableId);
-        const newFinish = {
-            ...finish,
-            taskIds: finishTaskIds,
-        }
-    
-        setState({...state, 
-            columns: {
-                ...state.columns,
-                [newStart.id]: newStart,
-                [newFinish.id]: newFinish,
-            }
-        });
-    }
-
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <AddColumn state={state} setState={setState} />
-            <Droppable droppableId="all-columns" direction="horizontal" type="column">
-                {provided => (
-                    <Container {...provided.droppableProps} ref={provided.innerRef}>
-                        {
-                            state.columnOrder.map((columnId, index) => {
-                                const column = state.columns[columnId];
-                                const tasks = column.taskIds.map(taskId => state.tasks[taskId]);
-                                return <Column key={column.id} column={column} tasks={tasks} index={index} state={state} setState={setState} />;
-                            })
-                        }
-                        {provided.placeholder}
-                    </Container>
-                )}
-            </Droppable>
-        </DragDropContext>
-    )
+        <div style={{width:"100vw"}}> 
+         <h1 style={{textAlign:"center"}}>KANBAN BOARD</h1>
+        <Container>
+            {
+                state.columnOrder.map((columnId, index) => {
+                    const column = state.columns[columnId];
+                    const tasks = column.taskIds.map(taskId => state.tasks[taskId]);
+                    return (
+                        <ColumnContainer key={column.id}>
+                            <Title>{column.title}</Title>
+                            <TaskList>
+                                {tasks.map(task => (
+                                    <TaskContainer key={task.id}>
+                                        {task.content}
+                                    </TaskContainer>
+                                ))}
+                            </TaskList>
+                        </ColumnContainer>
+                    );
+                })
+            }
+        </Container>
+        </div>
+    );
 }
 
 export default Board;
