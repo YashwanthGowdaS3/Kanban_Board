@@ -1,5 +1,34 @@
 import React,{ useState } from "react";
 import { useHistory } from "react-router-dom";
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+`;
+
+const InputField = styled.input`
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+`;
+
+const SubmitButton = styled.button`
+  background-color: #007bff; // Example blue color
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3; // Darker blue on hover
+  }
+`;
 function Register(props){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
