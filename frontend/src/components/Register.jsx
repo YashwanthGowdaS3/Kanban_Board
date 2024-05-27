@@ -1,8 +1,12 @@
 import React,{ useState } from "react";
 import { useHistory } from "react-router-dom";
+import styled from "styled-components";
+
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  height:300px;
   width: 300px;
   padding: 30px;
   border: 1px solid #ccc;
@@ -29,6 +33,7 @@ const SubmitButton = styled.button`
     background-color: #0056b3; // Darker blue on hover
   }
 `;
+
 function Register(props){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -60,17 +65,21 @@ function Register(props){
     } 
 
     return(
-        <form onSubmit={handleSubmit}> 
+        <div style={{display:"flex", justifyContent:"center",alignItems:"center",height:"100vh"}}>
+        <FormContainer onSubmit={handleSubmit}>
             <p>
-                Username <input type="text" onChange={e => setUsername(e.target.value)}/>
+                 <span style={{marginRight:"10px"}}>Username</span>
+                <InputField type="text" onChange={e => setUsername(e.target.value)}/>
             </p>
             <p>
-                Password <input type= "password" onChange={e => setPassword(e.target.value)}/>
+                <span style={{marginRight:"10px"}}>Password</span>
+                 <InputField type= "password" onChange={e => setPassword(e.target.value)}/>
             </p>
             <p>
-                <button>Register</button>
+                <SubmitButton>Register</SubmitButton>
             </p>
-        </form>
+      </FormContainer>
+      </div>
     )
 }
 

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Board from './components/Board';
-// import Login from './components/Login';
-// import Register from './components/Register';
+import Login from './components/Login';
+import Register from './components/Register';
+import "./app.css"
 
 function getToken() {
   const tokenString = localStorage.getItem('token');
@@ -25,12 +26,12 @@ function App() {
           <Board token={token} />
         }
         </Route> */}
-        {/* <Route path="/login">
-            <Login setToken={setToken} />
+        <Route path="/login">
+            <Login />
         </Route>
         <Route path="/register">
-            <Register setToken={setToken} />
-        </Route> */}
+            <Register  />
+        </Route>
       </Switch>
     </BrowserRouter>
   )

@@ -11,11 +11,14 @@ const ColumnContainer = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
   width: 300px;
-  h
+  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h3`
@@ -29,6 +32,7 @@ const TaskList = styled.div`
 const TaskContainer = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
+  width:200px;
   padding: 8px;
   margin-bottom: 8px;
   background-color: white;
