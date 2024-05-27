@@ -3,15 +3,18 @@ import { useHistory } from "react-router-dom";
 function Register(props){
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const history = useHistory();
+    
     function handleSubmit(e){
         e.preventDefault();
 
         createUser().then(data => {
             props.setToken(data.access_token);
             localStorage.setItem('token', JSON.stringify(data.access_token));
+            history.push('/');
         })
     }
-    async function createHashRouter(){
+    async function createUser(){
         const formData={
             username: username,
             password: password
