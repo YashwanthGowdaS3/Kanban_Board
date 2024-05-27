@@ -34,8 +34,6 @@ const SubmitButton = styled.button`
   }
 `;
 
- 
-
 
 
 function Login(props) {
@@ -64,12 +62,18 @@ function Login(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
+
+        history.push('/board')
         
-        loginUser().then(data => {
-            props.setToken(data.access_token);
-            localStorage.setItem('token', JSON.stringify(data.access_token));
-            history.push("/");
-        });
+        // loginUser().then(data => {
+        //     props.setToken(data.access_token);
+        //     localStorage.setItem('token', JSON.stringify(data.access_token));
+        //     history.push("/");
+        // });
+    }
+
+    const move = ()=>{
+        history.push('/register')
     }
 
     return (
@@ -78,6 +82,7 @@ function Login(props) {
                 <p><span style={{marginRight:"10px",fontFamily:"Roboto"}}>Username</span> <InputField type="text" onChange={e => setUsername(e.target.value)} /></p> 
                 <p><span style={{marginRight:"10px"}}>Password</span><InputField type="password" onChange={e => setPassword(e.target.value)} /></p>
                 <p><SubmitButton>Login</SubmitButton></p>
+                <button onClick={move}>Don't have an account ? Register</button>
             </FormContainer>
         </div>
     )

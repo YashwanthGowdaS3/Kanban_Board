@@ -42,12 +42,13 @@ function Register(props){
     function handleSubmit(e){
         e.preventDefault();
 
-        createUser().then(data => {
-            props.setToken(data.access_token);
-            localStorage.setItem('token', JSON.stringify(data.access_token));
-            history.push('/');
-        })
+        // createUser().then(data => {
+        //     props.setToken(data.access_token);
+        //     localStorage.setItem('token', JSON.stringify(data.access_token));
+        //     history.push('/');
+        // })
     }
+
     async function createUser(){
         const formData={
             username: username,

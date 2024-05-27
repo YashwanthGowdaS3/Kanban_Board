@@ -4,12 +4,12 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Board from './components/Board';
 import Login from './components/Login';
 import Register from './components/Register';
-import "./app.css"
+import "./app.css";
 
 function getToken() {
   const tokenString = localStorage.getItem('token');
   const userToken = JSON.parse(tokenString);
-  return userToken
+  return userToken;
 }
 
 function App() {
@@ -17,27 +17,22 @@ function App() {
 
   return (
     <BrowserRouter>
-    <Switch>
-        <Route exact path="/">
-          <Board/>
-        </Route>
-        {/* <Route exact path="/">
-          {!token ? <Redirect to="/login" /> :
-          <Board token={token} />
-        }
-        </Route> */}
-        <Route path="/login">
-            <Login />
+      <Switch>
+        <Route exact path="/board">
+          <Board />
         </Route>
         <Route path="/register">
-            <Register  />
+          <Register />
+        </Route>
+        <Route path="/">
+          {!token ? <Login setToken={setToken}/> : <Redirect token={token} to="/board" />}
         </Route>
       </Switch>
     </BrowserRouter>
-  )
+  );
 }
 
 ReactDOM.render(
-    <App />,
+  <App />,
   document.getElementById('root')
 );
