@@ -7,6 +7,7 @@ const FormContainer = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
   width: 300px;
   padding: 30px;
   border: 1px solid #ccc;
@@ -76,9 +77,24 @@ function Login(props) {
         history.push('/register')
     }
 
+    const style = {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "98vh",
+        width:"99vw",
+        backgroundImage: `url(${process.env.PUBLIC_URL}/image4.jpg)`,
+        backgroundSize: 'cover', // optional: to cover the entire element
+        backgroundPosition: 'center', // optional: to center the image
+        margin: 0,
+        padding: 0
+      };
+
     return (
-        <div style={{display:"flex", flexDirection:"row",justifyContent:"center",alignItems:"center",height:"100vh"}}>
+        <div className='' style={style}>
             <FormContainer onSubmit={handleSubmit}>
+                <h1 style={{textAlign:"center"}}>Welcome Back!</h1>
                 <p><span style={{marginRight:"10px",fontFamily:"Roboto"}}>Username</span> <InputField type="text" onChange={e => setUsername(e.target.value)} /></p> 
                 <p><span style={{marginRight:"10px"}}>Password</span><InputField type="password" onChange={e => setPassword(e.target.value)} /></p>
                 <p><SubmitButton>Login</SubmitButton></p>
